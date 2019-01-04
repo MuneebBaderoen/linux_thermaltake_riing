@@ -46,7 +46,7 @@ class ThermaltakeDaemon:
         self.controllers = {}
 
         for controller in self.config.controllers:
-            self.controllers[controller['unit']] = controller_factory(controller['type'], controller['unit'])
+            self.controllers[controller['unit']] = controller_factory(controller['type'], controller.get('unit'))
             for id, model in controller['devices'].items():
                 dev = ThermaltakeDevice.factory(model, self.controllers[controller['unit']], id)
                 self.controllers[controller['unit']].attach_device(id, dev)

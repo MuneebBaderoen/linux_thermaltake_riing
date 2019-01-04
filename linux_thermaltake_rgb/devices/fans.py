@@ -24,3 +24,9 @@ class ThermaltakeRiingPlusFan(ThermaltakeRGBDevice, ThermaltakeFanDevice):
     model = 'Riing Plus'
     num_leds = 12
     index_per_led = 3
+
+
+class ThermaltakeiRGBPLUSPSU(ThermaltakeRGBDevice, ThermaltakeFanDevice):
+    model = 'iRGB Plus'
+    num_leds = 12
+    index_per_led = 3

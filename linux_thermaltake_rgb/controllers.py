@@ -1,12 +1,23 @@
-from linux_thermaltake_rgb import drivers
+from linux_thermaltake_rgb import drivers, LOGGER
+from linux_thermaltake_rgb.classified_object import ClassifiedObject
 
 
-class ThermaltakeG3Controller:
-    def __init__(self, unit=1):
-        self.unit = unit
+class ThermaltakeController(ClassifiedObject):
+    def __init__(self):
         self.devices = {}
-        self.ports = 5
-        self.driver = drivers.ThermaltakeG3ControllerDriver(unit)
+        self.driver = None
+
+    @classmethod
+    def factory(cls, unit_type, unit_identifier=None):
+        subclass_dict = {clazz.model: clazz for clazz in cls.inheritors()}
+        try:
+            # TODO: remove copy pasta
+            if unit_identifier is not None:
+                return subclass_dict.get(unit_type.lower())(unit=unit_identifier)
+            else:
+                return subclass_dict.get(unit_type.lower())()
+        except KeyError as e:
+            LOGGER.warn('%s not a valid controller type', e)
 
     def attach_device(self, port=None, dev=None):
         self.devices[port] = dev
@@ -16,6 +27,21 @@ class ThermaltakeG3Controller:
         self.driver.save_profile()
 
 
-def controller_factory(unit_type=None, unit=1, **kwargs) -> ThermaltakeG3Controller:
-    if unit_type == 'g3':
-        return ThermaltakeG3Controller(unit)
+class ThermaltakeG3Controller(ThermaltakeController):
+    model = 'g3'
+
+    def __init__(self, unit=1):
+        super().__init__()
+        self.unit = unit
+        self.ports = 5
+        self.driver = drivers.ThermaltakeG3ControllerDriver(unit)
+
+
+class ThermaltakeiRGBPLUSController(ThermaltakeController):
+    model = 'irgbplus'
+
+    def __init__(self, unit='PSU'):
+        super().__init__()
+        self.unit = unit
+        self.ports = 1
+        self.driver = drivers.ThermaltakeiRGBPLUSControllerDriver()
