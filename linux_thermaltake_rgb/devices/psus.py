@@ -34,5 +34,5 @@ class ThermaltakePSUDevice(ThermaltakeRGBDevice):
         data = [0x30, 0x42, mode, 0x00]
         if values:
             data.extend(values)
-        LOGGER.debug(data)
+        LOGGER.debug('{} set lighting: raw hex: {}'.format(self.__class__.__name__, data))
         self.driver.write_out(data)

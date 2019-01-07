@@ -235,7 +235,16 @@ class PerLEDLightingEffect(ThermaltakeLightingEffect):
     model = 'perled'
 
     def start(self):
-        raise NotImplementedError
+        values = []
+        try:
+            g, r, b = self._config['g'], self._config['r'], self._config['b']
+            for i in range(12):
+                values.extend([g, r, b])
+        except KeyError as e:
+            LOGGER.warn('%s not found in config item: lighting_controller', e)
+
+        for device in self._devices:
+            device.set_lighting(mode=RGB.Mode.BY_LED, speed=0x00, values=values)
 
 
 class FlowLightingEffect(ThermaltakeLightingEffect):

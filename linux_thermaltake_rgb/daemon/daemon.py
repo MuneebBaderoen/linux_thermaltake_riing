@@ -53,10 +53,11 @@ class ThermaltakeDaemon:
                 self.register_attached_device(controller['unit'], id, dev)
         self.psus = []
 
-        for i, psu in enumerate(self.config.psus):
-            dev = ThermaltakeDevice.factory(psu.get('type'))
-            self.psus.append(dev)
-            self.register_attached_device('psu', i, dev)
+        if self.config.psus is not None:
+            for i, psu in enumerate(self.config.psus):
+                dev = ThermaltakeDevice.factory(psu.get('type'))
+                self.psus.append(dev)
+                self.register_attached_device('psu', i, dev)
 
         self._thread = Thread(target=self._main_loop)
 
