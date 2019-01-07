@@ -1,3 +1,5 @@
+from mock import patch
+
 from base_test_object import BaseTestObject
 from linux_thermaltake_rgb.fan_manager import FanModel, TempTargetModel, CurveModel
 
@@ -7,7 +9,8 @@ CurveModel._get_temp = (lambda self: 50)
 
 class FanTest(BaseTestObject):
 
-    def test_fan_factory(self):
+    @patch('linux_thermaltake_rgb.drivers.ThermaltakeControllerDriver._initialize_device', autospec=True)
+    def test_fan_factory(self, init_dev):
 
         for clazz in FanModel.inheritors():
             if clazz.model is None:

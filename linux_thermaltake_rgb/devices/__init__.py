@@ -34,9 +34,10 @@ class ThermaltakeDevice(ClassifiedObject):
         self.controller = controller
 
     @classmethod
-    def factory(cls, model, controller, port):
+    def factory(cls, model, controller=None, port=None):
         subclass_dict = {clazz.model.lower(): clazz for clazz in cls.inheritors() if clazz.model is not None}
         try:
+            LOGGER.debug('creating {} device'.format(cls.__name__))
             return subclass_dict[model.lower()](controller, port)
         except KeyError:
             LOGGER.warn(f'model {model} not found. controller: {controller} port: {port}')

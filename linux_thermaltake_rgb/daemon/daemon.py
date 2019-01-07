@@ -21,7 +21,7 @@ import time
 from threading import Thread
 
 from linux_thermaltake_rgb import LOGGER
-from linux_thermaltake_rgb.controllers import controller_factory
+from linux_thermaltake_rgb.controllers import ThermaltakeController
 from linux_thermaltake_rgb.fan_manager import FanModel
 from linux_thermaltake_rgb.daemon.config import Config
 from linux_thermaltake_rgb.daemon.dbus_service.service import ThermaltakeDbusService
@@ -46,11 +46,17 @@ class ThermaltakeDaemon:
         self.controllers = {}
 
         for controller in self.config.controllers:
-            self.controllers[controller['unit']] = controller_factory(controller['type'], controller.get('unit'))
+            self.controllers[controller['unit']] = ThermaltakeController.factory(controller['type'], controller.get('unit'))
             for id, model in controller['devices'].items():
                 dev = ThermaltakeDevice.factory(model, self.controllers[controller['unit']], id)
                 self.controllers[controller['unit']].attach_device(id, dev)
                 self.register_attached_device(controller['unit'], id, dev)
+        self.psus = []
+
+        for i, psu in enumerate(self.config.psus):
+            dev = ThermaltakeDevice.factory(psu.get('type'))
+            self.psus.append(dev)
+            self.register_attached_device('psu', i, dev)
 
         self._thread = Thread(target=self._main_loop)
 

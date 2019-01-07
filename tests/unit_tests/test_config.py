@@ -6,16 +6,19 @@ from mock import patch
 from base_test_object import BaseTestObject
 from linux_thermaltake_rgb.controllers import ThermaltakeController
 from linux_thermaltake_rgb.daemon.config import Config
+from linux_thermaltake_rgb.devices import ThermaltakeDevice
+from linux_thermaltake_rgb.devices.psus import ThermaltakePSUDevice
 
 
 class ConfigTest(BaseTestObject):
-    def test_load_from_assets(self):
+    @patch('linux_thermaltake_rgb.drivers.ThermaltakeControllerDriver._initialize_device', autospec=True)
+    def test_load_from_assets(self, init_dev):
         def verify_config(config):
             for thing in (config, config.controllers, config.fan_manager, config.lighting_manager):
                 self.assertIsNotNone(thing)
 
         # verify absolute load codepath is good
-        Config.abs_config_dir = os.path.join('..', Config.rel_config_dir)
+        Config.abs_config_dir = str(Config.rel_config_dir)
         verify_config(Config())
 
         # verify relative load codepath is good
@@ -45,17 +48,17 @@ class ConfigTest(BaseTestObject):
                 return yaml.load(IRGBPLUS_CONFIG)
 
         config = MockConfig()
-        for controller in config.controllers:
-            self.assertEqual(controller.get('type'), 'irgbplus')
+        for psu in config.psus:
+            self.assertEqual(psu.get('type'), 'irgbplus')
 
-            ThermaltakeController.factory(controller.get('type'))
+            dev = ThermaltakeDevice.factory(psu.get('type'))
+            self.assertIsInstance(dev, ThermaltakePSUDevice)
             self.assertTrue(init_dev.called)
 
 
 IRGBPLUS_CONFIG = """
-controllers:
+psus:
   - type: irgbplus
-    unit: PSU
 """
 
 G3_CONFIG = """

@@ -36,12 +36,3 @@ class ThermaltakeG3Controller(ThermaltakeController):
         self.ports = 5
         self.driver = drivers.ThermaltakeG3ControllerDriver(unit)
 
-
-class ThermaltakeiRGBPLUSController(ThermaltakeController):
-    model = 'irgbplus'
-
-    def __init__(self, unit='PSU'):
-        super().__init__()
-        self.unit = unit
-        self.ports = 1
-        self.driver = drivers.ThermaltakeiRGBPLUSControllerDriver()
