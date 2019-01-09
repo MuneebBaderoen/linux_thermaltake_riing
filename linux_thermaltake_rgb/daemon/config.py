@@ -50,7 +50,16 @@ class Config:
 
     def load_config(self):
         with open('{}/{}'.format(self.config_dir, self.config_file_name)) as cfg:
-            return yaml.load(cfg)
+            cfg_str = cfg.readlines()
+        cfg_lines = []
+        for s in cfg_str:
+            # remove comments and blank lines
+            if not s.strip().startswith('#') and len(s) > 1:
+                cfg_lines.append(s)
+
+        cfg = ''.join(cfg_lines)
+        LOGGER.debug('raw config file\n** start **\n\n%s\n** end **\n', cfg)
+        return yaml.load(cfg)
 
     def parse_config(self, config):
             self.controllers = config.get('controllers')

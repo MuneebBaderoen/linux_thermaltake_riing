@@ -1,3 +1,22 @@
+"""
+linux_thermaltake_rgb
+Software to control your thermaltake hardware
+Copyright (C) 2018  Max Chesterfield (chestm007@hotmail.com)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+"""
 import os
 
 import yaml
@@ -27,12 +46,18 @@ class ConfigTest(BaseTestObject):
         Config.abs_config_dir = ''
         verify_config(Config())
 
-    @patch('linux_thermaltake_rgb.drivers.ThermaltakeControllerDriver._initialize_device', autospec=True)
-    def test_g3_config(self, init_dev):
+    def load_config_from_string(self, config):
         class MockConfig(Config):
             def load_config(self):
-                return yaml.load(G3_CONFIG)
-        config = MockConfig()
+                return yaml.load(config)
+        return MockConfig()
+
+    def load_g3_config(self):
+        return self.load_config_from_string(G3_CONFIG)
+
+    @patch('linux_thermaltake_rgb.drivers.ThermaltakeControllerDriver._initialize_device', autospec=True)
+    def test_g3_config(self, init_dev):
+        config = self.load_g3_config()
         self.assertEqual(len(config.controllers), 5, 'not all controllers recognized in config')
         for controller in config.controllers:
             self.assertEqual(controller.get('type'), 'g3')
@@ -41,19 +66,27 @@ class ConfigTest(BaseTestObject):
             ThermaltakeController.factory(controller.get('type'))
             self.assertTrue(init_dev.called)
 
+    def load_irgbplus_config(self):
+        return self.load_config_from_string(IRGBPLUS_CONFIG)
+
     @patch('linux_thermaltake_rgb.drivers.ThermaltakeControllerDriver._initialize_device', autospec=True)
     def test_irgbplus_config(self, init_dev):
-        class MockConfig(Config):
-            def load_config(self):
-                return yaml.load(IRGBPLUS_CONFIG)
 
-        config = MockConfig()
+        config = self.load_irgbplus_config()
         for psu in config.psus:
             self.assertEqual(psu.get('type'), 'irgbplus')
 
             dev = ThermaltakeDevice.factory(psu.get('type'))
             self.assertIsInstance(dev, ThermaltakePSUDevice)
             self.assertTrue(init_dev.called)
+
+    @patch('linux_thermaltake_rgb.drivers.ThermaltakeControllerDriver._initialize_device', autospec=True)
+    def test_full_config(self, init_dev):
+        config = self.load_config_from_string(G3_CONFIG + IRGBPLUS_CONFIG)
+        self.assertIsNotNone(config.controllers)
+        self.assertIsNotNone(config.psus)
+
+        self.assertEqual(config.psus[0]['type'], 'irgbplus')
 
 
 IRGBPLUS_CONFIG = """

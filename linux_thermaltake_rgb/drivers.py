@@ -82,7 +82,7 @@ class ThermaltakeControllerDriver:
         """
         helper function to generate a zeroed out array of length size
         """
-        return [value for i in range(length)]
+        return [value for _ in range(length)]
 
     def _populate_partial_data_array(self, in_array: list, length=64) -> list:
         """
