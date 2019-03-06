@@ -23,7 +23,6 @@ from threading import Thread
 from linux_thermaltake_rgb.controllers import ThermaltakeController
 from linux_thermaltake_rgb.fan_manager import FanModel
 from linux_thermaltake_rgb.daemon.config import Config
-from linux_thermaltake_rgb.daemon.dbus_service.service import ThermaltakeDbusService
 from linux_thermaltake_rgb.lighting_manager import LightingEffect
 from linux_thermaltake_rgb import devices, LOGGER
 from linux_thermaltake_rgb.fan_manager import FanManager
@@ -43,9 +42,6 @@ class ThermaltakeDaemon:
 
         LOGGER.debug('creating lighting manager')
         self.lighting_manager = LightingEffect.factory(self.config.lighting_manager)
-
-        LOGGER.debug('starting dbus service')
-        self.dbus_service = ThermaltakeDbusService(self)
 
         self.attached_devices = {}
         self.controllers = {}
@@ -89,8 +85,6 @@ class ThermaltakeDaemon:
         self.lighting_manager.start()
         LOGGER.debug('starting fan manager')
         self.fan_manager.start()
-        LOGGER.debug('starting dbus service')
-        self.dbus_service.start()
 
     def stop(self):
         LOGGER.debug('recieved exit command')
@@ -101,8 +95,6 @@ class ThermaltakeDaemon:
         self.fan_manager.stop()
         LOGGER.debug('stopping main thread')
         self._thread.join()
-        LOGGER.debug('stopping dbus service')
-        self.dbus_service.stop()
         LOGGER.debug('saving controller profiles')
         for controller in self.controllers.values():
             controller.save_profile()
