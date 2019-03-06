@@ -1,7 +1,7 @@
 notes:
     possible protocol definition:
         v--30 set/31 get ? wtf does 'fe' mean then???
-        |  v--device? (42 appears to be fan LED's)
+        |  v--device 42 led/41 fan/ 33-41 tps data (42 appears to be fan LED's)
         |  |  v--lighting mode? (18 aligns with the riing protocol for per led lighting)
         |  |  |  v--possibly command variables similar too riing?
         |  |  |  |  v--parameters

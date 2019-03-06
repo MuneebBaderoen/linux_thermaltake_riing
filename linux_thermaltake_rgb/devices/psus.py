@@ -31,7 +31,7 @@ class ThermaltakePSUDevice(ThermaltakeRGBDevice):
         self.driver = ThermaltakeiRGBPLUSControllerDriver()
 
     def set_lighting(self, values: list = None, mode=0x18, speed=0x00):
-        data = [0x30, 0x42, mode, 0x00]
+        data = [0x30, 0x42, mode]
         if values:
             data.extend(values)
         LOGGER.debug('{} set lighting: raw hex: {}'.format(self.__class__.__name__, data))

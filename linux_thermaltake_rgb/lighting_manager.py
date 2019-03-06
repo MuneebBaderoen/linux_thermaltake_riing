@@ -69,7 +69,7 @@ class LightingEffect(ClassifiedObject):
         LOGGER.info(f'initializing {self.__class__.__name__} light controller')
 
     @classmethod
-    def factory(cls, config):
+    def factory(cls, config: dict):
         subclass_dict = {clazz.model: clazz for clazz in cls.inheritors()}
         try:
             return subclass_dict.get(config.pop('model').lower())(config)

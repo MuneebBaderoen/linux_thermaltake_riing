@@ -110,9 +110,6 @@ class ThermaltakeControllerDriver:
     def read_in(self, length: int = 64) -> bytearray:
         return self.endpoint_in.read(length)
 
-    def init_controller(self):
-        self.write_out([0xfe, 0x33])
-
     def save_profile(self):
         self.write_out([0x32, 0x53])
 
@@ -123,9 +120,15 @@ class ThermaltakeG3ControllerDriver(ThermaltakeControllerDriver):
     def init(self, unit=1):
         self.product_id = self.PRODUCT_ID_BASE + (unit - 1)
 
+    def init_controller(self):
+        self.write_out([0xfe, 0x33])
+
 
 class ThermaltakeiRGBPLUSControllerDriver(ThermaltakeControllerDriver):
     PRODUCT_ID = 0x2329
 
     def init(self):
         self.product_id = self.PRODUCT_ID
+
+    def init_controller(self):
+        self.write_out([0xfe, 0x31])
