@@ -64,17 +64,17 @@ example config is in `linux_thermaltake_rgb/assets/config.yml`
     
 ### Lighting Manager Settings
 
-- alternating 
-  settings: 
-    speed 
-    odd_rgb: 
-      g 
-      r 
-      b 
-    even_rgb: 
-      g 
-      r 
-      b 
+- alternating  
+  settings:  
+    speed  
+    odd_rgb:  
+      g  
+      r  
+      b  
+    even_rgb:  
+      g  
+      r  
+      b  
       
 - temperature 
   settings: 
