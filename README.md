@@ -12,6 +12,7 @@ Currently supported devices are (as they show up in thermaltakes TTRGBPLUS softw
 - Pacific V-GTX 1080Ti Plus GPU Waterblock  
 - Pacific W4 Plus CPU Waterblock  
 - Riing Plus  
+
 If your's isn't listed, please create an issue and I'll implement it ASAP!!  
 
 
