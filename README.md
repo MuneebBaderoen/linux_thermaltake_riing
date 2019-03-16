@@ -47,7 +47,26 @@ start and enable the systemd service
 the configuration file is expected to be in: `/etc/linux_thermaltake_rgb/config.yml`  
 edit and configure suitably.  
 
-example config is in `linux_thermaltake_rgb/assets/config.yml`
+example config is in `linux_thermaltake_rgb/assets/config.yml`  
+
+### Controller Types
+- g3
+- riingtrio
+
+### Devices
+
+- Fans
+  - Riing Plus
+  
+- Lights
+  - Pacific PR22-D5 Plus
+  - Pacific W4 Plus CPU Waterblock
+  - Pacific V-GTX 1080Ti Plus GPU Waterblock
+  - Pacific Rad Plus LED Panel
+  - Lumi Plus LED Strip
+  
+- Pumps
+  - Floe Riing RGB
 
 ### Fan Manager Settings
 
