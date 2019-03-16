@@ -36,7 +36,7 @@ sudo cp /usr/share/linux_thermaltake_rgb/config.yml /etc/linux_thermaltake_rgb/
 
 available in the aur as `linux-thermaltake-rgb`
 
-### starting and enabling the daemon
+### Starting and Enabling the Daemon
 
 start and enable the systemd service  
 `systemctl enable --now linux-thermaltake-rgb.service`  
@@ -47,3 +47,79 @@ the configuration file is expected to be in: `/etc/linux_thermaltake_rgb/config.
 edit and configure suitably.  
 
 example config is in `linux_thermaltake_rgb/assets/config.yml`
+
+### Fan Manager Settings
+
+- temp_target
+  settings:
+    sensor_name
+    target
+    multiplier
+- locked_speed
+  settings:
+    speed
+- curve
+  settings:
+    points
+    
+### Lighting Manager Settings
+
+- alternating
+  settings:
+    speed
+    odd_rgb:
+      g
+      r
+      b
+    even_rgb:
+      g
+      r
+      b
+      
+- temperature
+  settings:
+    speed
+    sensor_name
+    cold
+    hot
+    target
+
+- full
+  settings:
+    r
+    g
+    b
+    
+- off
+  settings:
+
+- flow
+  settings:
+    speed
+    
+- spectrum
+  settings:
+    speed
+    
+- ripple
+  settings:
+    speed
+    r
+    g
+    b
+    
+- blink
+  settings:
+    speed
+    r
+    g
+    b
+    
+- pulse
+  settings:
+    speed
+    r
+    g
+    b
+  
+
