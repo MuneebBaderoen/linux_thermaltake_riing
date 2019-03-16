@@ -5,13 +5,13 @@
 Python3 only.
 
 Currently supported devices are (as they show up in thermaltakes TTRGBPLUS software:  
-    Flow Riing RGB  
-    Lumi Plus LED Strip  
-    Pacific PR22-D5 Plus  
-    Pacific Rad Plus LED Panel  
-    Pacific V-GTX 1080Ti Plus GPU Waterblock  
-    Pacific W4 Plus CPU Waterblock  
-    Riing Plus  
+- Flow Riing RGB  
+- Lumi Plus LED Strip  
+- Pacific PR22-D5 Plus  
+- Pacific Rad Plus LED Panel  
+- Pacific V-GTX 1080Ti Plus GPU Waterblock  
+- Pacific W4 Plus CPU Waterblock  
+- Riing Plus  
 If your's isn't listed, please create an issue and I'll implement it ASAP!!  
 
 
@@ -81,7 +81,7 @@ example config is in `linux_thermaltake_rgb/assets/config.yml`
       sensor_name: k10temp
 
     ```
-    - sensor_name
+    - sensor_name [name of the sensor to get temperature reading from(names can be found by running `sensors` in a terminal)]
     
 ### Lighting Manager Settings
 To save repetition:  
