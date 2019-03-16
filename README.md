@@ -51,20 +51,46 @@ example config is in `linux_thermaltake_rgb/assets/config.yml`
 ### Fan Manager Settings
 
 - temp_target
-  settings:
-    sensor_name
-    target
-    multiplier
+  increases/decreases fan speed in direct response to the difference of actual
+  temperature to target temperature multiplied by the specified multiplier
+  with an extemely simple - read, dumb - smoothing function
+  - settings:
+    - sensor_name [name of the sensor to get temperature reading from(names can be found by running `sensors` in a terminal)]
+    - target [target temperature]
+    - multiplier
+    
 - locked_speed
-  settings:
-    speed
+  sets the fan speeds to a static speed, regardless of temperature 
+  or... anything really
+  - settings:
+    - speed [0-100]
+    
 - curve
-  settings:
-    points
+  allows defining of a fan speed curve
+  - settings:
+    - points  
+      example config:
+    
+    ```yaml
+    fan_manager:
+      model: curve
+      points:
+        - [0, 0]  # [temp(*C), speed(0-100%)]
+        - [50, 30]
+        - [70, 100]
+      sensor_name: k10temp
+
+    ```
+    - sensor_name
     
 ### Lighting Manager Settings
+To save repetition:  
+speed: desired refresh speed of the device ['slow', 'normal', 'fast', 'extreme']
+g/r/b: RGB values of the desired colour
 
 - alternating  
+  alternates between odd_rgb and even_rgb such that every "tick" the lights
+  on the device will alternate between the 2 colours
   - settings:  
     - speed  
     - odd_rgb:  
@@ -77,31 +103,39 @@ example config is in `linux_thermaltake_rgb/assets/config.yml`
       - b  
       
 - temperature 
+  will set lighting to a colour between blue/green/red and anywhere inbetween
+  depending on the temperature of the selected sensor
   - settings: 
     - speed 
-    - sensor_name 
-    - cold 
-    - hot 
-    - target 
+    - sensor_name [name of the sensor to get temperature reading from(names can be found by running `sensors` in a terminal)]
+    - cold [desired temperature to set lighting to blue]
+    - hot [desired temperature to set lighting to red]
+    - target [desired temperature to set lighting to green]
 
 - full 
+  sets lighting to this colour
   - settings: 
     - r 
     - g 
     - b 
     
 - off 
+  as it sounds, turns lighting off
   - settings: 
 
 - flow 
+  walks each led in the device slowly going around the RGB spectrum individually
   - settings: 
     - speed 
     
 - spectrum 
+  fades all lights at the same time through the RGB spectrum
   - settings: 
     - speed 
     
 - ripple 
+  leading led light followed by a trail of fading led's that walk all led's in
+  the device
   - settings: 
     - speed 
     - r 
@@ -109,6 +143,7 @@ example config is in `linux_thermaltake_rgb/assets/config.yml`
     - b 
     
 - blink 
+  repeatedly flashes the led's in the devices in the selected colour
   - settings: 
     - speed 
     - r 
@@ -116,6 +151,7 @@ example config is in `linux_thermaltake_rgb/assets/config.yml`
     - b 
     
 - pulse 
+  same as blink, except using a smooth fade
   - settings: 
     - speed 
     - r 
