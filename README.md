@@ -65,7 +65,7 @@ example config is in `linux_thermaltake_rgb/assets/config.yml`
 ### Lighting Manager Settings
 
 - alternating  
-  settings:  
+  - settings:  
     - speed  
     - odd_rgb:  
       - g  
@@ -77,49 +77,49 @@ example config is in `linux_thermaltake_rgb/assets/config.yml`
       - b  
       
 - temperature 
-  settings: 
-    speed 
-    sensor_name 
-    cold 
-    hot 
-    target 
+  - settings: 
+    - speed 
+    - sensor_name 
+    - cold 
+    - hot 
+    - target 
 
 - full 
-  settings: 
-    r 
-    g 
-    b 
+  - settings: 
+    - r 
+    - g 
+    - b 
     
 - off 
-  settings: 
+  - settings: 
 
 - flow 
-  settings: 
-    speed 
+  - settings: 
+    - speed 
     
 - spectrum 
-  settings: 
-    speed 
+  - settings: 
+    - speed 
     
 - ripple 
-  settings: 
-    speed 
-    r 
-    g 
-    b 
+  - settings: 
+    - speed 
+    - r 
+    - g 
+    - b 
     
 - blink 
-  settings: 
-    speed 
-    r 
-    g 
-    b 
+  - settings: 
+    - speed 
+    - r 
+    - g 
+    - b 
     
 - pulse 
-  settings: 
-    speed 
-    r 
-    g 
-    b 
+  - settings: 
+    - speed 
+    - r 
+    - g 
+    - b 
   
 
